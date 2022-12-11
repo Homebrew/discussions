@@ -1,0 +1,26 @@
+name: Linux
+label: ["linux"]
+body:
+  - type: checkboxes
+    attributes:
+      label: Additional Info
+      options:
+        - label: I am using Windows Subsystem for Linux
+          required: false
+  - type: textarea
+    attributes:
+      label: Output of `brew config`
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Output of `brew doctor`
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description of issue
+    validations:
+      required: true
