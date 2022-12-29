@@ -1,5 +1,5 @@
-name: Developing formulae or casks
-label: ["advanced", "writing-formulae-casks"]
+title: Developing formulae or casks
+labels: ["advanced", "writing-formulae-casks"]
 body:
   - type: textarea
     attributes:

@@ -1,5 +1,5 @@
-name: Linux
-label: ["linux"]
+title: Linux
+labels: ["linux"]
 body:
   - type: checkboxes
     attributes:

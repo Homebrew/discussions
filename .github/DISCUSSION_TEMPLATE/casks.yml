@@ -1,5 +1,5 @@
-name: Cask
-label: ["casks"]
+title: Cask
+labels: ["casks"]
 body:
   - type: textarea
     attributes:

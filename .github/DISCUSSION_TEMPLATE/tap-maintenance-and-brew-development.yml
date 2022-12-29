@@ -1,5 +1,5 @@
-name: Tap maintenance and Homebrew development
-label: ["advanced", "tap-maintenance-and-brew-development"]
+title: Tap maintenance and Homebrew development
+labels: ["advanced", "tap-maintenance-and-brew-development"]
 body:
   - type: textarea
     attributes:
