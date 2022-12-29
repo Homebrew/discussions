@@ -1,0 +1,25 @@
+name: Cask
+label: ["casks"]
+body:
+  - type: textarea
+    attributes:
+      label: Output of `brew config`
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Output of `brew doctor`
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Description of issue
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Relevant casks
+    validations:
+      required: true
