@@ -1,5 +1,5 @@
-name: Everyday Usage
-label: ["everyday-usage", "simple"]
+title: Everyday Usage
+labels: ["everyday-usage", "simple"]
 body:
   - type: textarea
     attributes:
