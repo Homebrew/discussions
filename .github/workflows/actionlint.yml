@@ -1,0 +1,84 @@
+# This file is synced from the `.github` repository, do not modify it directly.
+name: Actionlint
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+concurrency:
+  group: "actionlint-${{ github.ref }}"
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  HOMEBREW_DEVELOPER: 1
+  HOMEBREW_NO_AUTO_UPDATE: 1
+  HOMEBREW_NO_ENV_HINTS: 1
+
+permissions: {}
+
+jobs:
+  workflow_syntax:
+    if: github.repository_owner == 'Homebrew'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Set up Homebrew
+        id: setup-homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+        with:
+          core: false
+          cask: false
+          test-bot: false
+
+      - name: Install tools
+        run: brew install actionlint shellcheck zizmor
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+        with:
+          persist-credentials: false
+
+      - run: zizmor --format sarif . > results.sarif
+
+      - name: Upload SARIF file
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882 # v4
+        with:
+          name: results.sarif
+          path: results.sarif
+
+      - name: Set up actionlint
+        run: echo "::add-matcher::$(brew --repository)/.github/actionlint-matcher.json"
+
+      - run: actionlint
+
+  upload_sarif:
+    needs: workflow_syntax
+    # We want to always upload this even if `actionlint` failed.
+    # This is only available on public repositories.
+    if: >
+      always() &&
+      !contains(fromJSON('["cancelled", "skipped"]'), needs.workflow_syntax.result) &&
+      !github.event.repository.private
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Download SARIF file
+        uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16 # v4
+        with:
+          name: results.sarif
+          path: results.sarif
+
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@f09c1c0a94de965c15400f5634aa42fac8fb8f88 # v3
+        with:
+          sarif_file: results.sarif
+          category: zizmor
