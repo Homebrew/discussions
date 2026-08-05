@@ -34,12 +34,12 @@ jobs:
     steps:
       - name: Set up Homebrew
         id: setup-homebrew
-        uses: Homebrew/actions/setup-homebrew@df4b09108a1de9d6f995fe68f302b3f68bd6d2ef # 2026.07.20.1
+        uses: Homebrew/actions/setup-homebrew@9af03b7ae3f9e2ae5c174f659d5c3909f7e7dbac # 2026.07.29.1
         with:
           core: false
           cask: false
 
-      - uses: Homebrew/actions/cache-homebrew-prefix@df4b09108a1de9d6f995fe68f302b3f68bd6d2ef # 2026.07.20.1
+      - uses: Homebrew/actions/cache-homebrew-prefix@9af03b7ae3f9e2ae5c174f659d5c3909f7e7dbac # 2026.07.29.1
         # Don't cache the prefix for the formulae.brew.sh repository as it won't download its own JSON API files
         if: github.repository != 'Homebrew/formulae.brew.sh'
         with:
